@@ -23,11 +23,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Clear Gradle Cache (Fix Build Issues)
+        run: rm -rf ~/.gradle/caches && rm -rf ~/.gradle/wrapper
+
       - name: Grant Execute Permission to Gradlew
         run: chmod +x gradlew
 
-      - name: Build APK
-        run: ./gradlew assembleDebug
+      - name: Build APK with Debugging
+        run: ./gradlew assembleDebug --stacktrace --info --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
