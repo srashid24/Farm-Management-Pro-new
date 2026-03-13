@@ -20,23 +20,45 @@
             android:orientation="vertical"
             android:padding="12dp">
             <TextView
-                android:text="Select Field for Report:"
+                android:text="Farmer Filter (Include / Exclude):"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/primary"/>
             <Spinner
+                android:id="@+id/sp_farmer_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"/>
+            <TextView
+                android:text="Select Field for Report:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginTop="8dp"/>
+            <Spinner
                 android:id="@+id/sp_field_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"/>
-            <Button
-                android:id="@+id/btn_generate_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Generate Report"
-                android:backgroundTint="@color/primary"
-                android:layout_marginTop="8dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+                <Button
+                    android:id="@+id/btn_generate_report"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Field Report"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginEnd="4dp"/>
+                <Button
+                    android:id="@+id/btn_buyer_report"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Buyer Ledger"
+                    android:backgroundTint="@color/blue"/>
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

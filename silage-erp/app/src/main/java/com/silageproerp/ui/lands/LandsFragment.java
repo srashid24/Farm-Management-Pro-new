@@ -84,25 +84,25 @@ public class LandsFragment extends Fragment implements LandAdapter.OnLandActionL
         EditText etContractEnd = dv.findViewById(R.id.et_contract_end);
         EditText etNotes = dv.findViewById(R.id.et_notes);
 
-        // Auto convert ha <-> acres
-        etSizeHa.addTextChangedListener(new TextWatcher() {
-            boolean updating = false;
-            public void afterTextChanged(Editable s) {
-                if (updating) return;
-                updating = true;
-                try { double ha = Double.parseDouble(s.toString()); etSizeAcres.setText(String.format("%.4f", ha * 2.47105)); }
-                catch (Exception ignored) {}
-                updating = false;
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
+        // Primary = Acres; auto-convert to ha
         etSizeAcres.addTextChangedListener(new TextWatcher() {
             boolean updating = false;
             public void afterTextChanged(Editable s) {
                 if (updating) return;
                 updating = true;
                 try { double acres = Double.parseDouble(s.toString()); etSizeHa.setText(String.format("%.4f", acres / 2.47105)); }
+                catch (Exception ignored) {}
+                updating = false;
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        etSizeHa.addTextChangedListener(new TextWatcher() {
+            boolean updating = false;
+            public void afterTextChanged(Editable s) {
+                if (updating) return;
+                updating = true;
+                try { double ha = Double.parseDouble(s.toString()); etSizeAcres.setText(String.format("%.4f", ha * 2.47105)); }
                 catch (Exception ignored) {}
                 updating = false;
             }
@@ -149,14 +149,14 @@ public class LandsFragment extends Fragment implements LandAdapter.OnLandActionL
                         return;
                     }
                     int farmerId = farmers.get(selIdx - 1).id;
-                    double ha = 0, contractCost = 0;
-                    try { ha = Double.parseDouble(etSizeHa.getText().toString()); } catch (Exception ignored) {}
+                    double acres = 0, contractCost = 0;
+                    try { acres = Double.parseDouble(etSizeAcres.getText().toString()); } catch (Exception ignored) {}
                     try { contractCost = Double.parseDouble(etContractCost.getText().toString()); } catch (Exception ignored) {}
 
                     if (existing == null) {
                         db.landDao().insert(new Land(farmerId,
                                 etBlockId.getText().toString().trim(),
-                                fieldName, ha,
+                                fieldName, acres,
                                 etLocation.getText().toString().trim(),
                                 etGps.getText().toString().trim(),
                                 etSoilType.getText().toString().trim(),
@@ -172,8 +172,8 @@ public class LandsFragment extends Fragment implements LandAdapter.OnLandActionL
                         existing.farmerId = farmerId;
                         existing.blockId = etBlockId.getText().toString().trim();
                         existing.fieldName = fieldName;
-                        existing.sizeHectares = ha;
-                        existing.sizeAcres = ha * 2.47105;
+                        existing.sizeAcres = acres;
+                        existing.sizeHectares = acres / 2.47105;
                         existing.location = etLocation.getText().toString().trim();
                         existing.gpsCoordinates = etGps.getText().toString().trim();
                         existing.soilType = etSoilType.getText().toString().trim();

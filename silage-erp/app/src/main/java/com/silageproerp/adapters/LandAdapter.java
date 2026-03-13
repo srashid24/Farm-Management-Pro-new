@@ -42,7 +42,7 @@ public class LandAdapter extends RecyclerView.Adapter<LandAdapter.ViewHolder> {
         Land l = list.get(position);
         h.tvFieldName.setText(l.fieldName);
         h.tvBlockId.setText(l.blockId != null ? "Block: " + l.blockId : "");
-        h.tvSize.setText(String.format("%.2f ha / %.2f acres", l.sizeHectares, l.sizeAcres));
+        h.tvSize.setText(String.format("%.2f acres / %.2f ha", l.sizeAcres, l.sizeHectares));
         h.tvLocation.setText(l.location != null ? l.location : "");
         h.tvContract.setText(l.contractType != null ? l.contractType : "Owned");
         h.btnEdit.setOnClickListener(v -> listener.onEdit(l));

@@ -30,6 +30,9 @@ public interface LandDao {
     @Query("SELECT * FROM lands WHERE id = :id")
     Land getById(int id);
 
+    @Query("SELECT SUM(sizeAcres) FROM lands")
+    double getTotalAcres();
+
     @Query("SELECT SUM(sizeHectares) FROM lands")
     double getTotalHectares();
 

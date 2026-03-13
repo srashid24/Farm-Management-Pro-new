@@ -36,7 +36,7 @@ public class DashboardFragment extends Fragment {
         setText(view, R.id.tv_farmer_count, String.valueOf(db.farmerDao().getCount()));
         // Lands
         setText(view, R.id.tv_land_count, String.valueOf(db.landDao().getCount()));
-        String totalHa = String.format("%.1f ha", db.landDao().getTotalHectares());
+        String totalHa = String.format("%.1f acres (%.1f ha)", db.landDao().getTotalAcres(), db.landDao().getTotalHectares());
         setText(view, R.id.tv_total_hectares, totalHa);
         // Harvest
         String totalYield = String.format("%.1f tons", db.harvestDao().getTotalYield());

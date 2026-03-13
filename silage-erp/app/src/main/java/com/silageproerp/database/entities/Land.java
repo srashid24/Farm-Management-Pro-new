@@ -33,15 +33,15 @@ public class Land {
     public String notes;
     public long createdAt;
 
-    public Land(int farmerId, String blockId, String fieldName, double sizeHectares,
+    public Land(int farmerId, String blockId, String fieldName, double sizeAcres,
                 String location, String gpsCoordinates, String soilType, String cropType,
                 String contractType, String landownerName, double contractCost,
                 String contractStartDate, String contractEndDate, String notes) {
         this.farmerId = farmerId;
         this.blockId = blockId;
         this.fieldName = fieldName;
-        this.sizeHectares = sizeHectares;
-        this.sizeAcres = sizeHectares * 2.47105;
+        this.sizeAcres = sizeAcres;
+        this.sizeHectares = sizeAcres / 2.47105;
         this.location = location;
         this.gpsCoordinates = gpsCoordinates;
         this.soilType = soilType;
