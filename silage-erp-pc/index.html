@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silage Pro ERP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Sidebar Navigation ── -->
+  <nav id="sidebar">
+    <div id="sidebar-header">
+      <h1>🌾 Silage Pro ERP</h1>
+      <p>Offline Business Management</p>
+    </div>
+    <nav>
+      <div class="nav-section">Overview</div>
+      <a href="#" class="active" data-page="dashboard"><span class="icon">📊</span> Dashboard</a>
+
+      <div class="nav-section">People & Land</div>
+      <a href="#" data-page="farmers"><span class="icon">👨‍🌾</span> Farmers</a>
+      <a href="#" data-page="lands"><span class="icon">🌍</span> Lands & Fields</a>
+
+      <div class="nav-section">Production</div>
+      <a href="#" data-page="harvest"><span class="icon">🌿</span> Harvest & Yield</a>
+      <a href="#" data-page="packaging"><span class="icon">📦</span> Packaging</a>
+      <a href="#" data-page="inventory"><span class="icon">🏭</span> Inventory</a>
+
+      <div class="nav-section">Sales</div>
+      <a href="#" data-page="buyers"><span class="icon">🤝</span> Buyers</a>
+      <a href="#" data-page="sellers"><span class="icon">🏪</span> Suppliers / Sellers</a>
+      <a href="#" data-page="sales"><span class="icon">🚛</span> Sales & Delivery</a>
+
+      <div class="nav-section">Finance</div>
+      <a href="#" data-page="costing"><span class="icon">💰</span> Costing & Expenses</a>
+
+      <div class="nav-section">Livestock</div>
+      <a href="#" data-page="cattle"><span class="icon">🐄</span> Cattle</a>
+      <a href="#" data-page="fattening"><span class="icon">📈</span> Fattening Program</a>
+
+      <div class="nav-section">Reports</div>
+      <a href="#" data-page="reports"><span class="icon">📋</span> Reports & History</a>
+    </nav>
+  </nav>
+
+  <!-- ── Main Content ── -->
+  <div id="main">
+    <div id="header">
+      <h2 id="page-title">Dashboard</h2>
+      <span style="font-size:12px;opacity:.7">All data saved offline on this computer</span>
+    </div>
+    <div id="content">
+      <div style="text-align:center;padding:80px 20px;color:#888">Loading...</div>
+    </div>
+  </div>
+
+  <!-- ── Scripts (order matters) ── -->
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/farmers.js"></script>
+  <script src="js/lands.js"></script>
+  <script src="js/harvest.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/buyers.js"></script>
+  <script src="js/sellers.js"></script>
+  <script src="js/sales.js"></script>
+  <script src="js/costing.js"></script>
+  <script src="js/cattle.js"></script>
+  <script src="js/fattening.js"></script>
+  <script src="js/packaging.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
