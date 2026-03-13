@@ -24,6 +24,7 @@ public class Harvest {
     public String storageLocation;
     public double inputCostTotal;
     public String notes;
+    public String imagePath;        // Path to silage sample photo
     public long createdAt;
 
     public Harvest(int landId, String season, String harvestDate, double yieldTons,

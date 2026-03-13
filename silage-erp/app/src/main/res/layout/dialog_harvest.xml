@@ -3,35 +3,19 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:padding="16dp">
-        <TextView android:text="Field *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <Spinner android:id="@+id/sp_land" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <TextView android:text="Season (e.g. 2024/25)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_season" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="2024/25"/>
-        <TextView android:text="Harvest Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-        <TextView android:text="Total Yield (Tons)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_yield" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-        <TextView android:text="Moisture (%)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_moisture" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="60-70% ideal" android:inputType="numberDecimal"/>
-        <TextView android:text="Quality" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <Spinner android:id="@+id/sp_quality" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <TextView android:text="Silage Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <Spinner android:id="@+id/sp_silage_type" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Bale Count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_bale_count" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0" android:inputType="number"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Bale Weight (kg)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_bale_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="600" android:inputType="numberDecimal"/>
-            </LinearLayout>
-        </LinearLayout>
-        <TextView android:text="Storage Location" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_storage" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Where is silage stored?"/>
-        <TextView android:text="Total Input Cost ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_input_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
+        <Spinner android:id="@+id/sp_land" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <EditText android:id="@+id/et_season" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Season (e.g. 2025/26 Summer)"/>
+        <EditText android:id="@+id/et_harvest_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Harvest Date (yyyy-MM-dd)"/>
+        <EditText android:id="@+id/et_yield_tons" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Yield (Tons)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_moisture" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Moisture %" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Quality" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_quality" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Silage Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_silage_type" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <EditText android:id="@+id/et_bale_count" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Number of Bales" android:inputType="number"/>
+        <EditText android:id="@+id/et_bale_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Bale Weight (kg)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_storage_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Storage Location"/>
+        <EditText android:id="@+id/et_input_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Total Input Cost ($)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes / Sample quality notes" android:inputType="textMultiLine" android:minLines="2"/>
     </LinearLayout>
 </ScrollView>

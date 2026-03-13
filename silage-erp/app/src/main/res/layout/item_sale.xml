@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp" android:layout_marginVertical="3dp"
-    app:cardElevation="3dp" app:cardCornerRadius="8dp">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+    android:layout_margin="4dp" app:cardCornerRadius="8dp" android:elevation="2dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <TextView android:id="@+id/tv_invoice" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textSize="12sp" android:textColor="@color/text_secondary"/>
-                    <TextView android:id="@+id/tv_delivery_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="11sp" android:textColor="@color/white" android:background="@color/blue" android:paddingHorizontal="6dp" android:paddingVertical="2dp"/>
-                </LinearLayout>
-                <TextView android:id="@+id/tv_buyer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/primary"/>
-                <TextView android:id="@+id/tv_details" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="13sp" android:textColor="@color/text_secondary"/>
-                <TextView android:id="@+id/tv_silage_cost" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="@color/text_secondary"/>
-                <TextView android:id="@+id/tv_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="14sp" android:textStyle="bold" android:textColor="@color/green"/>
-                <TextView android:id="@+id/tv_balance" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="13sp" android:textStyle="bold"/>
-                <TextView android:id="@+id/tv_route" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="@color/text_secondary"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
-                <ImageButton android:id="@+id/btn_edit" android:layout_width="36dp" android:layout_height="36dp" android:src="@android:drawable/ic_menu_edit" android:background="?attr/selectableItemBackground"/>
-                <ImageButton android:id="@+id/btn_delete" android:layout_width="36dp" android:layout_height="36dp" android:src="@android:drawable/ic_menu_delete" android:background="?attr/selectableItemBackground"/>
-            </LinearLayout>
+            <TextView android:id="@+id/tv_invoice" android:layout_width="0dp" android:layout_weight="1"
+                android:textStyle="bold" android:textSize="13sp" android:textColor="@color/green_dark"/>
+            <TextView android:id="@+id/tv_payment_status" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textStyle="bold"/>
+        </LinearLayout>
+        <TextView android:id="@+id/tv_buyer" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="15sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/tv_details" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textColor="#555" android:textSize="12sp"/>
+        <TextView android:id="@+id/tv_transport" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textColor="#1565C0" android:textSize="12sp"/>
+        <TextView android:id="@+id/tv_total" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textStyle="bold" android:textSize="13sp"/>
+        <TextView android:id="@+id/tv_delivery_status" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textColor="#555" android:textSize="12sp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="8dp">
+            <ImageButton android:id="@+id/btn_mark_delivered" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_send" android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="8dp"/>
+            <ImageButton android:id="@+id/btn_mark_paid" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_agenda" android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="8dp"/>
+            <View android:layout_width="0dp" android:layout_weight="1" android:layout_height="1dp"/>
+            <ImageButton android:id="@+id/btn_edit" android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_edit" android:background="?attr/selectableItemBackgroundBorderless"/>
+            <ImageButton android:id="@+id/btn_delete" android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_delete" android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="#C62828"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

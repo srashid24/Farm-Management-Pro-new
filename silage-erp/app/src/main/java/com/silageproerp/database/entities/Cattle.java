@@ -26,6 +26,7 @@ public class Cattle {
     public double purchasePrice;
     public String purchaseDate;
     public String notes;
+    public String imagePath;        // Path to cattle photo
     public long createdAt;
 
     public Cattle(int ownerId, String ownerName, String tagNumber, String name,

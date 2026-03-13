@@ -31,6 +31,7 @@ public class Land {
     public String contractNotes;
 
     public String notes;
+    public String imagePath;        // Path to field photo
     public long createdAt;
 
     public Land(int farmerId, String blockId, String fieldName, double sizeAcres,

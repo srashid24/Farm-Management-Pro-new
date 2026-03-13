@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.silageproerp.R;
 import com.silageproerp.adapters.SaleAdapter;
 import com.silageproerp.database.AppDatabase;
@@ -27,22 +25,19 @@ import com.silageproerp.database.entities.Buyer;
 import com.silageproerp.database.entities.Sale;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SalesFragment extends Fragment implements SaleAdapter.OnSaleActionListener {
+public class SalesFragment extends Fragment implements SaleAdapter.SaleListener {
 
     private AppDatabase db;
     private SaleAdapter adapter;
     private RecyclerView recyclerView;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_with_search, container, false);
+    @Nullable @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
     @Override
@@ -50,148 +45,140 @@ public class SalesFragment extends Fragment implements SaleAdapter.OnSaleActionL
         super.onViewCreated(view, savedInstanceState);
         db = AppDatabase.getInstance(requireContext());
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        EditText etSearch = view.findViewById(R.id.et_search);
-        etSearch.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) { loadData(s.toString()); }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-
-        view.findViewById(R.id.fab_add).setOnClickListener(v -> showDialog(null));
-        loadData("");
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        view.findViewById(R.id.fab_add).setOnClickListener(v -> showAddDialog(null));
+        loadData();
     }
 
-    private void loadData(String query) {
-        List<Sale> list = query.isEmpty() ? db.saleDao().getAll() : db.saleDao().search(query);
-        if (adapter == null) { adapter = new SaleAdapter(list, this); recyclerView.setAdapter(adapter); }
-        else adapter.updateList(list);
+    private void loadData() {
+        List<Sale> sales = db.saleDao().getAll();
+        if (adapter == null) { adapter = new SaleAdapter(sales, this); recyclerView.setAdapter(adapter); }
+        else adapter.updateData(sales);
     }
 
-    private void showDialog(Sale existing) {
-        View dv = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_sale, null);
-        Spinner spBuyer = dv.findViewById(R.id.sp_buyer);
-        Spinner spSilageType = dv.findViewById(R.id.sp_silage_type);
-        EditText etQtyTons = dv.findViewById(R.id.et_qty_tons);
-        EditText etBaleCount = dv.findViewById(R.id.et_bale_count);
-        EditText etPricePerTon = dv.findViewById(R.id.et_price_per_ton);
-        EditText etPricePerBale = dv.findViewById(R.id.et_price_per_bale);
-        EditText etTransportCost = dv.findViewById(R.id.et_transport_cost);
-        EditText etDistanceKm = dv.findViewById(R.id.et_distance_km);
-        EditText etDeparture = dv.findViewById(R.id.et_departure_location);
-        EditText etDelivery = dv.findViewById(R.id.et_delivery_location);
-        EditText etAmountPaid = dv.findViewById(R.id.et_amount_paid);
-        EditText etSaleDate = dv.findViewById(R.id.et_sale_date);
-        EditText etDeliveryDate = dv.findViewById(R.id.et_delivery_date);
-        EditText etNotes = dv.findViewById(R.id.et_notes);
-        TextView tvTotal = dv.findViewById(R.id.tv_total_amount);
+    @Override public void onEdit(Sale s) { showAddDialog(s); }
+
+    @Override
+    public void onDelete(Sale s) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Sale")
+                .setMessage("Delete invoice " + s.invoiceNumber + "?")
+                .setPositiveButton("Delete", (d, w) -> { db.saleDao().delete(s); loadData(); })
+                .setNegativeButton("Cancel", null).show();
+    }
+
+    @Override
+    public void onMarkDelivered(Sale s) {
+        s.deliveryStatus = "Delivered";
+        db.saleDao().update(s);
+        loadData();
+    }
+
+    @Override
+    public void onMarkPaid(Sale s) {
+        s.amountPaid = s.totalAmount;
+        s.balance = 0;
+        s.paymentStatus = "Paid";
+        db.saleDao().update(s);
+        loadData();
+    }
+
+    private void showAddDialog(Sale existing) {
+        View dv = LayoutInflater.from(getContext()).inflate(R.layout.dialog_sale, null);
+
+        Spinner  spBuyer       = dv.findViewById(R.id.sp_buyer);
+        Spinner  spSilageType  = dv.findViewById(R.id.sp_silage_type);
+        EditText etQtyTons     = dv.findViewById(R.id.et_qty_tons);
+        EditText etBales       = dv.findViewById(R.id.et_bales);
+        EditText etPriceTon    = dv.findViewById(R.id.et_price_per_ton);
+        EditText etPriceBale   = dv.findViewById(R.id.et_price_per_bale);
+        EditText etTransport   = dv.findViewById(R.id.et_transport_cost);
+        EditText etDistanceKm  = dv.findViewById(R.id.et_distance_km);
+        EditText etDeparture   = dv.findViewById(R.id.et_departure_location);
+        EditText etDelivery    = dv.findViewById(R.id.et_delivery_location);
+        EditText etAmountPaid  = dv.findViewById(R.id.et_amount_paid);
+        EditText etSaleDate    = dv.findViewById(R.id.et_sale_date);
+        EditText etDelivDate   = dv.findViewById(R.id.et_delivery_date);
+        EditText etNotes       = dv.findViewById(R.id.et_notes);
+        TextView tvTotal       = dv.findViewById(R.id.tv_total_amount);
+        TextView tvBalance     = dv.findViewById(R.id.tv_balance);
 
         // Auto-calculate total
-        TextWatcher calcWatcher = new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                double tons = 0, bales = 0, ppt = 0, ppb = 0, transport = 0;
-                try { tons = Double.parseDouble(etQtyTons.getText().toString()); } catch (Exception ignored) {}
-                try { bales = Double.parseDouble(etBaleCount.getText().toString()); } catch (Exception ignored) {}
-                try { ppt = Double.parseDouble(etPricePerTon.getText().toString()); } catch (Exception ignored) {}
-                try { ppb = Double.parseDouble(etPricePerBale.getText().toString()); } catch (Exception ignored) {}
-                try { transport = Double.parseDouble(etTransportCost.getText().toString()); } catch (Exception ignored) {}
-                double total = (tons * ppt) + (bales * ppb) + transport;
-                tvTotal.setText(String.format("Total: $%.2f", total));
+        TextWatcher calc = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
+            public void afterTextChanged(Editable s) {}
+            public void onTextChanged(CharSequence s, int st, int b, int c) {
+                try {
+                    double tons = parse(etQtyTons); int bales = (int) parse(etBales);
+                    double pTon = parse(etPriceTon); double pBale = parse(etPriceBale);
+                    double transport = parse(etTransport); double paid = parse(etAmountPaid);
+                    double total = (tons * pTon) + (bales * pBale) + transport;
+                    double bal = total - paid;
+                    tvTotal.setText(String.format("Total: $%.2f", total));
+                    tvBalance.setText(String.format("Balance: $%.2f", bal));
+                } catch (Exception ignored) {}
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         };
-        etQtyTons.addTextChangedListener(calcWatcher);
-        etBaleCount.addTextChangedListener(calcWatcher);
-        etPricePerTon.addTextChangedListener(calcWatcher);
-        etPricePerBale.addTextChangedListener(calcWatcher);
-        etTransportCost.addTextChangedListener(calcWatcher);
+        etQtyTons.addTextChangedListener(calc); etBales.addTextChangedListener(calc);
+        etPriceTon.addTextChangedListener(calc); etPriceBale.addTextChangedListener(calc);
+        etTransport.addTextChangedListener(calc); etAmountPaid.addTextChangedListener(calc);
 
         List<Buyer> buyers = db.buyerDao().getAll();
-        List<String> buyerNames = new ArrayList<>();
-        buyerNames.add("-- Select Buyer --");
-        for (Buyer b : buyers) buyerNames.add(b.name);
-        spBuyer.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, buyerNames));
+        String[] bNames = new String[buyers.size() + 1];
+        bNames[0] = "— Select Buyer —";
+        for (int i = 0; i < buyers.size(); i++) bNames[i+1] = buyers.get(i).name;
+        spBuyer.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, bNames));
 
-        String[] types = {"Maize Silage", "Grass Silage", "Sorghum Silage", "Wheat Silage", "Mixed"};
-        spSilageType.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, types));
+        String[] silageTypes = {"Maize", "Grass", "Sorghum", "Mixed", "Other"};
+        spSilageType.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, silageTypes));
 
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        if (existing == null) { etSaleDate.setText(today); etDeliveryDate.setText(today); }
-        else {
+        etSaleDate.setText(today);
+
+        if (existing != null) {
             etQtyTons.setText(String.valueOf(existing.quantityTons));
-            etBaleCount.setText(String.valueOf(existing.balesCount));
-            etPricePerTon.setText(String.valueOf(existing.pricePerTon));
-            etPricePerBale.setText(String.valueOf(existing.pricePerBale));
-            etTransportCost.setText(String.valueOf(existing.transportCost));
+            etBales.setText(String.valueOf(existing.balesCount));
+            etPriceTon.setText(String.valueOf(existing.pricePerTon));
+            etPriceBale.setText(String.valueOf(existing.pricePerBale));
+            etTransport.setText(String.valueOf(existing.transportCost));
             etDistanceKm.setText(String.valueOf(existing.transportDistanceKm));
             etDeparture.setText(existing.departureLocation);
             etDelivery.setText(existing.deliveryLocation);
             etAmountPaid.setText(String.valueOf(existing.amountPaid));
             etSaleDate.setText(existing.saleDate);
-            etDeliveryDate.setText(existing.deliveryDate);
+            etDelivDate.setText(existing.deliveryDate);
             etNotes.setText(existing.notes);
+            for (int i = 0; i < buyers.size(); i++) {
+                if (buyers.get(i).id == existing.buyerId) { spBuyer.setSelection(i+1); break; }
+            }
         }
 
         new AlertDialog.Builder(requireContext())
                 .setTitle(existing == null ? "New Sale / Delivery" : "Edit Sale")
                 .setView(dv)
                 .setPositiveButton("Save", (d, w) -> {
-                    int buyerIdx = spBuyer.getSelectedItemPosition();
-                    if (buyerIdx == 0) { Toast.makeText(requireContext(), "Select a buyer", Toast.LENGTH_SHORT).show(); return; }
-                    Buyer buyer = buyers.get(buyerIdx - 1);
-                    double tons = 0, ppt = 0, ppb = 0, transport = 0, distKm = 0, paid = 0;
-                    int bales = 0;
-                    try { tons = Double.parseDouble(etQtyTons.getText().toString()); } catch (Exception ignored) {}
-                    try { bales = Integer.parseInt(etBaleCount.getText().toString()); } catch (Exception ignored) {}
-                    try { ppt = Double.parseDouble(etPricePerTon.getText().toString()); } catch (Exception ignored) {}
-                    try { ppb = Double.parseDouble(etPricePerBale.getText().toString()); } catch (Exception ignored) {}
-                    try { transport = Double.parseDouble(etTransportCost.getText().toString()); } catch (Exception ignored) {}
-                    try { distKm = Double.parseDouble(etDistanceKm.getText().toString()); } catch (Exception ignored) {}
-                    try { paid = Double.parseDouble(etAmountPaid.getText().toString()); } catch (Exception ignored) {}
-
-                    if (existing == null) {
-                        db.saleDao().insert(new Sale(buyer.id, buyer.name,
-                                spSilageType.getSelectedItem().toString(),
-                                tons, bales, ppt, ppb, transport, distKm,
-                                etDeparture.getText().toString().trim(),
-                                etDelivery.getText().toString().trim(),
-                                paid,
-                                etSaleDate.getText().toString().trim(),
-                                etDeliveryDate.getText().toString().trim(),
-                                etNotes.getText().toString().trim()));
-                        Toast.makeText(requireContext(), "Sale recorded", Toast.LENGTH_SHORT).show();
-                    } else {
-                        existing.buyerId = buyer.id; existing.buyerName = buyer.name;
-                        existing.silagType = spSilageType.getSelectedItem().toString();
-                        existing.quantityTons = tons; existing.balesCount = bales;
-                        existing.pricePerTon = ppt; existing.pricePerBale = ppb;
-                        existing.transportCost = transport; existing.transportDistanceKm = distKm;
-                        existing.departureLocation = etDeparture.getText().toString().trim();
-                        existing.deliveryLocation = etDelivery.getText().toString().trim();
-                        existing.silageCost = (tons * ppt) + (bales * ppb);
-                        existing.totalAmount = existing.silageCost + transport;
-                        existing.amountPaid = paid;
-                        existing.balance = existing.totalAmount - paid;
-                        existing.paymentStatus = paid <= 0 ? "Unpaid" : (paid >= existing.totalAmount ? "Paid" : "Partial");
-                        existing.saleDate = etSaleDate.getText().toString().trim();
-                        existing.deliveryDate = etDeliveryDate.getText().toString().trim();
-                        existing.notes = etNotes.getText().toString().trim();
-                        db.saleDao().update(existing);
-                        Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    }
-                    loadData("");
+                    int bi = spBuyer.getSelectedItemPosition();
+                    if (bi == 0) return;
+                    Buyer buyer = buyers.get(bi - 1);
+                    Sale sale = new Sale(buyer.id, buyer.name,
+                            spSilageType.getSelectedItem().toString(),
+                            parse(etQtyTons), (int) parse(etBales),
+                            parse(etPriceTon), parse(etPriceBale),
+                            parse(etTransport), parse(etDistanceKm),
+                            etDeparture.getText().toString().trim(),
+                            etDelivery.getText().toString().trim(),
+                            parse(etAmountPaid),
+                            etSaleDate.getText().toString().trim(),
+                            etDelivDate.getText().toString().trim(),
+                            etNotes.getText().toString().trim());
+                    if (existing == null) { db.saleDao().insert(sale); }
+                    else { sale.id = existing.id; db.saleDao().update(sale); }
+                    loadData();
                 })
                 .setNegativeButton("Cancel", null).show();
     }
 
-    @Override public void onEdit(Sale sale) { showDialog(sale); }
-    @Override
-    public void onDelete(Sale sale) {
-        new AlertDialog.Builder(requireContext()).setTitle("Delete Sale")
-                .setMessage("Delete invoice " + sale.invoiceNumber + "?")
-                .setPositiveButton("Delete", (d, w) -> { db.saleDao().delete(sale); loadData(""); })
-                .setNegativeButton("Cancel", null).show();
+    private double parse(EditText et) {
+        try { return Double.parseDouble(et.getText().toString()); } catch (NumberFormatException e) { return 0; }
     }
 }

@@ -3,25 +3,13 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:padding="16dp">
-        <TextView android:text="Select Cattle *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <Spinner android:id="@+id/sp_cattle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <TextView android:text="Start Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_start_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Start Weight (kg)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_start_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.0" android:inputType="numberDecimal"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Target Weight (kg)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_target_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.0" android:inputType="numberDecimal"/>
-            </LinearLayout>
-        </LinearLayout>
-        <TextView android:text="Daily Feed (kg/day)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_daily_feed" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="kg of feed per day" android:inputType="numberDecimal"/>
-        <TextView android:text="Feed Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <Spinner android:id="@+id/sp_feed_type" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_cattle" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <EditText android:id="@+id/et_start_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Start Date (yyyy-MM-dd)"/>
+        <EditText android:id="@+id/et_start_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Start Weight (kg)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_target_weight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Target Weight (kg)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_daily_feed_kg" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Daily Feed (kg/day)" android:inputType="numberDecimal"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Feed Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_feed_type" android:layout_width="match_parent" android:layout_height="48dp"/>
         <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
     </LinearLayout>
 </ScrollView>

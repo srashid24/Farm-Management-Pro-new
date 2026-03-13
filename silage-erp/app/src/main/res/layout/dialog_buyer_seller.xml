@@ -4,10 +4,12 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:padding="16dp">
         <EditText android:id="@+id/et_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Full Name *" android:inputType="textPersonName"/>
-        <EditText android:id="@+id/et_phone" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone Number" android:inputType="phone"/>
-        <EditText android:id="@+id/et_address" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Address / Town" android:inputType="textMultiLine" android:minLines="2"/>
-        <EditText android:id="@+id/et_national_id" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="National ID / Registration"/>
+        <EditText android:id="@+id/et_phone" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Phone" android:inputType="phone"/>
+        <EditText android:id="@+id/et_company" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Company / Farm Name"/>
+        <EditText android:id="@+id/et_address" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Address" android:inputType="textMultiLine" android:minLines="2"/>
         <EditText android:id="@+id/et_email" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email" android:inputType="textEmailAddress"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_type" android:layout_width="match_parent" android:layout_height="48dp"/>
         <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
     </LinearLayout>
 </ScrollView>

@@ -3,66 +3,23 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:padding="16dp">
-
-        <TextView android:text="Farmer / Owner *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <Spinner android:id="@+id/sp_farmer" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <TextView android:text="Block ID" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_block_id" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. BLK-001, FIELD-A"/>
-
-        <TextView android:text="Field Name *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_field_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. North Maize Field"/>
-
-        <TextView android:text="LAND MEASUREMENTS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="8dp"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Size (Hectares)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_size" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.0000" android:inputType="numberDecimal"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Size (Acres)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_size_acres" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.0000" android:inputType="numberDecimal"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView android:text="Location / Village" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Mkuze, KZN"/>
-
-        <TextView android:text="GPS Coordinates" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_gps" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="-27.123456, 32.654321"/>
-
-        <TextView android:text="Soil Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_soil_type" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Sandy loam, Clay"/>
-
-        <TextView android:text="Crop Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_crop_type" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Maize, Grass, Sorghum"/>
-
-        <TextView android:text="LAND CONTRACT" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="8dp"/>
-
-        <TextView android:text="Contract Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <Spinner android:id="@+id/sp_contract_type" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-        <TextView android:text="Landowner Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_landowner" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Owner's name (if rented/leased)"/>
-
-        <TextView android:text="Contract Cost (per season)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_contract_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Contract Start" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_contract_start" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Contract End" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_contract_end" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Additional notes" android:inputType="textMultiLine" android:minLines="2"/>
+        <Spinner android:id="@+id/sp_farmer" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <EditText android:id="@+id/et_block_id" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Block/Field ID (e.g. BLK-001)"/>
+        <EditText android:id="@+id/et_field_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Field Name *"/>
+        <EditText android:id="@+id/et_size_acres" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Size in Acres" android:inputType="numberDecimal"/>
+        <TextView android:id="@+id/tv_hectares_calc" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/green_dark" android:textSize="12sp" android:layout_marginBottom="4dp"/>
+        <EditText android:id="@+id/et_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Location / Village"/>
+        <EditText android:id="@+id/et_gps" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPS Coordinates"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Soil Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_soil_type" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Crop / Silage Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_crop_type" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Contract / Ownership" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_contract_type" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <EditText android:id="@+id/et_landowner" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Landowner Name"/>
+        <EditText android:id="@+id/et_contract_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Contract/Rent Cost per Season" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_contract_start" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Contract Start Date (yyyy-MM-dd)"/>
+        <EditText android:id="@+id/et_contract_end" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Contract End Date (yyyy-MM-dd)"/>
+        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
     </LinearLayout>
 </ScrollView>

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +23,7 @@ import com.silageproerp.database.entities.Farmer;
 
 import java.util.List;
 
-public class FarmersFragment extends Fragment implements FarmerAdapter.OnFarmerActionListener {
+public class FarmersFragment extends Fragment implements FarmerAdapter.FarmerListener {
 
     private AppDatabase db;
     private FarmerAdapter adapter;
@@ -34,7 +33,7 @@ public class FarmersFragment extends Fragment implements FarmerAdapter.OnFarmerA
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_with_search, container, false);
+        return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
     @Override
@@ -43,13 +42,16 @@ public class FarmersFragment extends Fragment implements FarmerAdapter.OnFarmerA
         db = AppDatabase.getInstance(requireContext());
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        EditText etSearch = view.findViewById(R.id.et_search);
-        etSearch.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) { loadData(s.toString()); }
+        EditText searchBox = view.findViewById(R.id.et_search);
+        searchBox.setHint("Search farmers...");
+        searchBox.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                loadData(s.toString());
+            }
+            public void afterTextChanged(Editable s) {}
         });
 
         FloatingActionButton fab = view.findViewById(R.id.fab_add);
@@ -59,31 +61,43 @@ public class FarmersFragment extends Fragment implements FarmerAdapter.OnFarmerA
     }
 
     private void loadData(String query) {
-        List<Farmer> list = query.isEmpty()
+        List<Farmer> farmers = query.isEmpty()
                 ? db.farmerDao().getAll()
                 : db.farmerDao().search(query);
         if (adapter == null) {
-            adapter = new FarmerAdapter(list, this);
+            adapter = new FarmerAdapter(farmers, this);
             recyclerView.setAdapter(adapter);
         } else {
-            adapter.updateList(list);
+            adapter.updateData(farmers);
         }
     }
 
+    @Override
+    public void onEdit(Farmer farmer) { showAddDialog(farmer); }
+
+    @Override
+    public void onDelete(Farmer farmer) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Farmer")
+                .setMessage("Delete " + farmer.name + "? All linked lands will also be deleted.")
+                .setPositiveButton("Delete", (d, w) -> { db.farmerDao().delete(farmer); loadData(""); })
+                .setNegativeButton("Cancel", null).show();
+    }
+
     private void showAddDialog(Farmer existing) {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_farmer, null);
-        EditText etName = dialogView.findViewById(R.id.et_name);
-        EditText etPhone = dialogView.findViewById(R.id.et_phone);
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_farmer, null);
+        EditText etName    = dialogView.findViewById(R.id.et_name);
+        EditText etPhone   = dialogView.findViewById(R.id.et_phone);
         EditText etAddress = dialogView.findViewById(R.id.et_address);
-        EditText etNationalId = dialogView.findViewById(R.id.et_national_id);
-        EditText etEmail = dialogView.findViewById(R.id.et_email);
-        EditText etNotes = dialogView.findViewById(R.id.et_notes);
+        EditText etNatId   = dialogView.findViewById(R.id.et_national_id);
+        EditText etEmail   = dialogView.findViewById(R.id.et_email);
+        EditText etNotes   = dialogView.findViewById(R.id.et_notes);
 
         if (existing != null) {
             etName.setText(existing.name);
             etPhone.setText(existing.phone);
             etAddress.setText(existing.address);
-            etNationalId.setText(existing.nationalId);
+            etNatId.setText(existing.nationalId);
             etEmail.setText(existing.email);
             etNotes.setText(existing.notes);
         }
@@ -93,51 +107,25 @@ public class FarmersFragment extends Fragment implements FarmerAdapter.OnFarmerA
                 .setView(dialogView)
                 .setPositiveButton("Save", (d, w) -> {
                     String name = etName.getText().toString().trim();
-                    if (name.isEmpty()) {
-                        Toast.makeText(requireContext(), "Name is required", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    if (name.isEmpty()) { etName.setError("Required"); return; }
                     if (existing == null) {
-                        Farmer f = new Farmer(name,
+                        db.farmerDao().insert(new Farmer(name,
                                 etPhone.getText().toString().trim(),
                                 etAddress.getText().toString().trim(),
-                                etNationalId.getText().toString().trim(),
+                                etNatId.getText().toString().trim(),
                                 etEmail.getText().toString().trim(),
-                                etNotes.getText().toString().trim());
-                        db.farmerDao().insert(f);
-                        Toast.makeText(requireContext(), "Farmer added", Toast.LENGTH_SHORT).show();
+                                etNotes.getText().toString().trim()));
                     } else {
                         existing.name = name;
                         existing.phone = etPhone.getText().toString().trim();
                         existing.address = etAddress.getText().toString().trim();
-                        existing.nationalId = etNationalId.getText().toString().trim();
+                        existing.nationalId = etNatId.getText().toString().trim();
                         existing.email = etEmail.getText().toString().trim();
                         existing.notes = etNotes.getText().toString().trim();
                         db.farmerDao().update(existing);
-                        Toast.makeText(requireContext(), "Farmer updated", Toast.LENGTH_SHORT).show();
                     }
                     loadData("");
                 })
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
-
-    @Override
-    public void onEdit(Farmer farmer) {
-        showAddDialog(farmer);
-    }
-
-    @Override
-    public void onDelete(Farmer farmer) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Delete Farmer")
-                .setMessage("Delete " + farmer.name + "? This will also remove their lands.")
-                .setPositiveButton("Delete", (d, w) -> {
-                    db.farmerDao().delete(farmer);
-                    loadData("");
-                    Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .setNegativeButton("Cancel", null).show();
     }
 }

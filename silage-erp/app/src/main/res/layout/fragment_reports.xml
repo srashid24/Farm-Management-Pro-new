@@ -1,80 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/surface"
-    android:padding="8dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
 
-    <androidx.cardview.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        android:layout_marginBottom="8dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
-            <TextView
-                android:text="Farmer Filter (Include / Exclude):"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/primary"/>
-            <Spinner
-                android:id="@+id/sp_farmer_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"/>
-            <TextView
-                android:text="Select Field for Report:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:layout_marginTop="8dp"/>
-            <Spinner
-                android:id="@+id/sp_field_selector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
-                <Button
-                    android:id="@+id/btn_generate_report"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Field Report"
-                    android:backgroundTint="@color/primary"
-                    android:layout_marginEnd="4dp"/>
-                <Button
-                    android:id="@+id/btn_buyer_report"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Buyer Ledger"
-                    android:backgroundTint="@color/blue"/>
-            </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="BUSINESS REPORT" android:textStyle="bold" android:textSize="18sp"
+            android:textColor="@color/green_dark" android:layout_marginBottom="12dp"/>
+
+        <!-- Yield -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Yield Summary" android:textStyle="bold" android:textColor="@color/green_dark"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Yield:"/>
+            <TextView android:id="@+id/tv_rpt_total_yield" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Bales:"/>
+            <TextView android:id="@+id/tv_rpt_total_bales" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Land:"/>
+            <TextView android:id="@+id/tv_rpt_total_hectares" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/tv_report_output"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="12sp"
-            android:textColor="@color/text_primary"
-            android:padding="8dp"
-            android:background="@color/white"
-            android:text="Select a field above and tap Generate Report"/>
-    </ScrollView>
-</LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" android:layout_marginVertical="12dp"/>
+
+        <!-- Finance -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Financial Summary" android:textStyle="bold" android:textColor="@color/green_dark"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Revenue:"/>
+            <TextView android:id="@+id/tv_rpt_revenue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/green_dark" android:textStyle="bold" android:text="$0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Costs:"/>
+            <TextView android:id="@+id/tv_rpt_total_cost" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#C62828" android:text="$0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Net Profit:" android:textStyle="bold"/>
+            <TextView android:id="@+id/tv_rpt_profit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:text="$0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Outstanding (owed):"/>
+            <TextView android:id="@+id/tv_rpt_outstanding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#E65100" android:text="$0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Transport Costs:"/>
+            <TextView android:id="@+id/tv_rpt_transport" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" android:layout_marginVertical="12dp"/>
+
+        <!-- Records -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Records Summary" android:textStyle="bold" android:textColor="@color/green_dark"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Farmers:"/>
+            <TextView android:id="@+id/tv_rpt_farmers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Land Fields:"/>
+            <TextView android:id="@+id/tv_rpt_lands" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Buyers:"/>
+            <TextView android:id="@+id/tv_rpt_buyers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Sellers:"/>
+            <TextView android:id="@+id/tv_rpt_sellers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Sales:"/>
+            <TextView android:id="@+id/tv_rpt_sales" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Cattle (active):"/>
+            <TextView android:id="@+id/tv_rpt_cattle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="In Fattening:"/>
+            <TextView android:id="@+id/tv_rpt_fattening" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Inventory Value:"/>
+            <TextView android:id="@+id/tv_rpt_inventory_val" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" android:layout_marginVertical="12dp"/>
+
+        <!-- Cost breakdown -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Cost Breakdown" android:textStyle="bold" android:textColor="@color/green_dark"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Seeds:"/><TextView android:id="@+id/tv_cost_seeds" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Fertilizer:"/><TextView android:id="@+id/tv_cost_fertilizer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Labour:"/><TextView android:id="@+id/tv_cost_labour" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Machinery:"/><TextView android:id="@+id/tv_cost_machinery" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Fuel:"/><TextView android:id="@+id/tv_cost_fuel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Wrap:"/><TextView android:id="@+id/tv_cost_wrap" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"><TextView android:layout_width="0dp" android:layout_weight="1" android:text="Transport:"/><TextView android:id="@+id/tv_cost_transport" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0"/></LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="80dp"/>
+    </LinearLayout>
+</ScrollView>

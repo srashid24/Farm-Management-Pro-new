@@ -1,92 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:padding="12dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:text="Business Overview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary"
-            android:paddingBottom="8dp"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
 
         <!-- Low stock alert -->
-        <TextView
-            android:id="@+id/tv_low_stock_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/red"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"/>
+        <TextView android:id="@+id/tv_low_stock_alert"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="#FFE0E0" android:textColor="#C62828"
+            android:padding="12dp" android:textStyle="bold"
+            android:layout_marginBottom="8dp" android:visibility="gone"/>
 
-        <!-- Row 1: Farmers + Lands -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <include layout="@layout/card_stat" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/card1"/>
-            <include layout="@layout/card_stat" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/card2"/>
+        <!-- Section: Farm -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="FARM OVERVIEW" android:textStyle="bold"
+            android:textColor="@color/green_dark" android:layout_marginTop="8dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="4dp">
+            <include layout="@layout/card_stat" android:id="@+id/card_farmers"
+                android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
+            <include layout="@layout/card_stat" android:id="@+id/card_lands"
+                android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <!-- Stat cards using individual TextViews in a grid -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp"
+        <!-- Farmers count reuse via direct TVs -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="@color/green_light">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Farmers" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_farmer_count" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="@color/green_medium">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Fields" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_land_count" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tv_total_hectares" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0 ha"
+                        android:textColor="#CCFFFFFF" android:textSize="11sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Harvest -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="SILAGE YIELD" android:textStyle="bold"
+            android:textColor="@color/green_dark" android:layout_marginTop="12dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="4dp">
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="#5D4037">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Total Yield" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_total_yield" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0.0 tons"
+                        android:textColor="@android:color/white" android:textSize="20sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="#795548">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Total Bales" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_total_bales" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@android:color/white" android:textSize="20sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Finance -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="FINANCIALS" android:textStyle="bold"
+            android:textColor="@color/green_dark" android:layout_marginTop="12dp"/>
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_margin="4dp"
+            app:cardCornerRadius="8dp" android:elevation="4dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:padding="12dp">
-
-                <TextView android:text="Farmers:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_farmer_count" android:text="0" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Fields / Blocks:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_land_count" android:text="0" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Total Area:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_total_hectares" android:text="0 ha" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Total Yield:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_total_yield" android:text="0 tons" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Total Bales:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_total_bales" android:text="0" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Revenue:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_total_revenue" android:text="$0.00" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Outstanding:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_outstanding" android:text="$0.00" android:textColor="@color/red" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Total Costs:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_total_cost" android:text="$0.00" android:textColor="@color/orange" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Active Cattle:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_cattle_count" android:text="0" android:textColor="@color/blue" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Fattening:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_fattening_count" android:text="0" android:textColor="@color/blue" android:textStyle="bold" android:padding="4dp"/>
-
-                <TextView android:text="Inventory Value:" android:textStyle="bold" android:padding="4dp"/>
-                <TextView android:id="@+id/tv_inventory_value" android:text="$0.00" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
-            </GridLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1"
+                        android:text="Revenue:" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tv_total_revenue" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="$0.00"
+                        android:textColor="@color/green_dark" android:textStyle="bold"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:text="Total Costs:"/>
+                    <TextView android:id="@+id/tv_total_cost" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="$0.00" android:textColor="#C62828"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_weight="1"
+                        android:text="Outstanding (Buyers owe):" android:textColor="#E65100"/>
+                    <TextView android:id="@+id/tv_outstanding" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="$0.00" android:textColor="#E65100"/>
+                </LinearLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Cattle -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="CATTLE" android:textStyle="bold"
+            android:textColor="@color/green_dark" android:layout_marginTop="12dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="4dp">
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="#1565C0">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Active Cattle" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_cattle_count" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:layout_margin="4dp"
+                app:cardCornerRadius="8dp" android:elevation="4dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp" android:background="#0D47A1">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="In Fattening" android:textColor="@android:color/white" android:textSize="12sp"/>
+                    <TextView android:id="@+id/tv_fattening_count" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@android:color/white" android:textSize="24sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Inventory -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="INVENTORY" android:textStyle="bold"
+            android:textColor="@color/green_dark" android:layout_marginTop="12dp"/>
+        <androidx.cardview.widget.CardView android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_margin="4dp"
+            app:cardCornerRadius="8dp" android:elevation="4dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:padding="16dp">
+                <TextView android:layout_width="0dp" android:layout_weight="1"
+                    android:text="Total Stock Value:" android:textStyle="bold"/>
+                <TextView android:id="@+id/tv_inventory_value" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="$0.00"
+                    android:textColor="@color/green_dark" android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <View android:layout_width="match_parent" android:layout_height="80dp"/>
     </LinearLayout>
 </ScrollView>

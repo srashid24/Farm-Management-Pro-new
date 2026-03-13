@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="16dp">
+    <EditText android:id="@+id/et_current_weight" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Current Weight (kg)" android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/et_feed_cost_added" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Feed Cost to Add ($)" android:inputType="numberDecimal"/>
+</LinearLayout>

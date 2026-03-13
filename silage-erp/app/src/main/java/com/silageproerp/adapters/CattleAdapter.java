@@ -3,69 +3,45 @@ package com.silageproerp.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.silageproerp.R;
 import com.silageproerp.database.entities.Cattle;
-
+import com.silageproerp.helper.ImageHelper;
 import java.util.List;
 
 public class CattleAdapter extends RecyclerView.Adapter<CattleAdapter.ViewHolder> {
-
-    public interface OnCattleActionListener {
-        void onEdit(Cattle cattle);
-        void onDelete(Cattle cattle);
+    public interface CattleListener { void onEdit(Cattle c); void onDelete(Cattle c); }
+    private List<Cattle> data; private final CattleListener listener;
+    public CattleAdapter(List<Cattle> data, CattleListener l) { this.data = data; this.listener = l; }
+    public void updateData(List<Cattle> d) { this.data = d; notifyDataSetChanged(); }
+    @NonNull @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup p, int t) {
+        return new ViewHolder(LayoutInflater.from(p.getContext()).inflate(R.layout.item_cattle, p, false));
     }
-
-    private List<Cattle> list;
-    private final OnCattleActionListener listener;
-
-    public CattleAdapter(List<Cattle> list, OnCattleActionListener listener) {
-        this.list = list;
-        this.listener = listener;
-    }
-
-    public void updateList(List<Cattle> newList) { this.list = newList; notifyDataSetChanged(); }
-
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cattle, parent, false);
-        return new ViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder h, int position) {
-        Cattle c = list.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
+        Cattle c = data.get(pos);
         h.tvTag.setText("Tag: " + c.tagNumber);
-        h.tvName.setText(c.name != null && !c.name.isEmpty() ? c.name : c.breed);
+        h.tvName.setText(c.name != null && !c.name.isEmpty() ? c.name : c.tagNumber);
         h.tvBreed.setText(c.breed + " | " + c.gender);
         h.tvWeight.setText(String.format("%.1f kg", c.currentWeightKg));
         h.tvStatus.setText(c.status);
-        h.tvOwner.setText(c.ownerName != null ? c.ownerName : "");
+        h.tvOwner.setText("Owner: " + (c.ownerName != null ? c.ownerName : ""));
+        ImageHelper.loadImage(h.ivPhoto, c.imagePath, R.drawable.ic_cattle_placeholder);
         h.btnEdit.setOnClickListener(v -> listener.onEdit(c));
         h.btnDelete.setOnClickListener(v -> listener.onDelete(c));
     }
-
-    @Override
-    public int getItemCount() { return list.size(); }
-
+    @Override public int getItemCount() { return data.size(); }
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTag, tvName, tvBreed, tvWeight, tvStatus, tvOwner;
-        View btnEdit, btnDelete;
-        ViewHolder(View v) {
-            super(v);
-            tvTag = v.findViewById(R.id.tv_tag);
-            tvName = v.findViewById(R.id.tv_name);
-            tvBreed = v.findViewById(R.id.tv_breed);
-            tvWeight = v.findViewById(R.id.tv_weight);
-            tvStatus = v.findViewById(R.id.tv_status);
-            tvOwner = v.findViewById(R.id.tv_owner);
-            btnEdit = v.findViewById(R.id.btn_edit);
-            btnDelete = v.findViewById(R.id.btn_delete);
-        }
+        TextView tvTag, tvName, tvBreed, tvWeight, tvStatus, tvOwner; ImageView ivPhoto; ImageButton btnEdit, btnDelete;
+        ViewHolder(View v) { super(v);
+            tvTag=v.findViewById(R.id.tv_tag); tvName=v.findViewById(R.id.tv_name);
+            tvBreed=v.findViewById(R.id.tv_breed); tvWeight=v.findViewById(R.id.tv_weight);
+            tvStatus=v.findViewById(R.id.tv_status); tvOwner=v.findViewById(R.id.tv_owner);
+            ivPhoto=v.findViewById(R.id.iv_photo); btnEdit=v.findViewById(R.id.btn_edit); btnDelete=v.findViewById(R.id.btn_delete); }
     }
 }

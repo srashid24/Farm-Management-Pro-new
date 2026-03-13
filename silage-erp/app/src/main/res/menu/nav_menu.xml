@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_dashboard"  android:title="Dashboard"         android:icon="@android:drawable/ic_menu_compass"/>
+        <item android:id="@+id/nav_farmers"    android:title="Farmers"           android:icon="@android:drawable/ic_menu_myplaces"/>
+        <item android:id="@+id/nav_lands"      android:title="Lands / Fields"    android:icon="@android:drawable/ic_menu_mapmode"/>
+        <item android:id="@+id/nav_harvest"    android:title="Harvest / Yield"   android:icon="@android:drawable/ic_menu_gallery"/>
+        <item android:id="@+id/nav_packaging"  android:title="Packaging"         android:icon="@android:drawable/ic_menu_agenda"/>
+        <item android:id="@+id/nav_inventory"  android:title="Inventory"         android:icon="@android:drawable/ic_menu_manage"/>
+        <item android:id="@+id/nav_buyers"     android:title="Buyers"            android:icon="@android:drawable/ic_menu_myplaces"/>
+        <item android:id="@+id/nav_sellers"    android:title="Suppliers / Sellers" android:icon="@android:drawable/ic_menu_myplaces"/>
+        <item android:id="@+id/nav_sales"      android:title="Sales &amp; Delivery" android:icon="@android:drawable/ic_menu_send"/>
+        <item android:id="@+id/nav_costing"    android:title="Costing / Expenses" android:icon="@android:drawable/ic_menu_edit"/>
+        <item android:id="@+id/nav_cattle"     android:title="Cattle"            android:icon="@android:drawable/ic_menu_myplaces"/>
+        <item android:id="@+id/nav_fattening"  android:title="Fattening Program" android:icon="@android:drawable/ic_menu_sort_by_size"/>
+        <item android:id="@+id/nav_reports"    android:title="Reports &amp; History" android:icon="@android:drawable/ic_menu_info_details"/>
+    </group>
+</menu>

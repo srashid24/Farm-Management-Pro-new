@@ -18,6 +18,7 @@ public class InventoryItem {
     public String dateAdded;
     public double minimumStock;
     public String notes;
+    public String imagePath;        // Path to sample/item photo
     public long createdAt;
 
     public InventoryItem(String itemName, String category, double quantity, String unit,

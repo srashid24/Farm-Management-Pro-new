@@ -3,83 +3,34 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:padding="16dp">
+        <Spinner android:id="@+id/sp_buyer" android:layout_width="match_parent" android:layout_height="48dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Silage Type" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/sp_silage_type" android:layout_width="match_parent" android:layout_height="48dp"/>
 
-        <TextView android:text="Buyer *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <Spinner android:id="@+id/sp_buyer" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="─── Quantity ───" android:textStyle="bold" android:layout_marginTop="12dp" android:textColor="@color/green_dark"/>
+        <EditText android:id="@+id/et_qty_tons" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Quantity (Tons)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_bales" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Number of Bales" android:inputType="number"/>
+        <EditText android:id="@+id/et_price_per_ton" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Price per Ton ($)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_price_per_bale" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Price per Bale ($)" android:inputType="numberDecimal"/>
 
-        <TextView android:text="Silage Type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <Spinner android:id="@+id/sp_silage_type" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="─── Transport / Delivery ───" android:textStyle="bold" android:layout_marginTop="12dp" android:textColor="#1565C0"/>
+        <EditText android:id="@+id/et_departure_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Departure Location (Farm / Storage)"/>
+        <EditText android:id="@+id/et_delivery_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Delivery Location (Buyer Address)"/>
+        <EditText android:id="@+id/et_distance_km" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Distance (km)" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/et_transport_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Transport Cost ($)" android:inputType="numberDecimal"/>
 
-        <TextView android:text="QUANTITY" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Qty (Tons)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_qty_tons" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.0" android:inputType="numberDecimal"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Bales Count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_bale_count" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0" android:inputType="number"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView android:text="PRICING" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Price / Ton ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_price_per_ton" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Price / Bale ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-                <EditText android:id="@+id/et_price_per_bale" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView android:text="TRANSPORT / DELIVERY" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
-
-        <TextView android:text="Departure Location (Leaving From)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <EditText android:id="@+id/et_departure_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Farm / storage location"/>
-
-        <TextView android:text="Delivery Location (Going To)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-        <EditText android:id="@+id/et_delivery_location" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Buyer's delivery address"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Distance (km)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_distance_km" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0" android:inputType="numberDecimal"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Transport Cost ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_transport_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-            </LinearLayout>
-        </LinearLayout>
-
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="─── Payment ───" android:textStyle="bold" android:layout_marginTop="12dp" android:textColor="@color/green_dark"/>
         <TextView android:id="@+id/tv_total_amount" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Total: $0.00" android:textSize="18sp" android:textStyle="bold" android:textColor="#1B5E20"
-            android:background="#E8F5E9" android:padding="10dp" android:layout_marginTop="8dp" android:gravity="center"/>
+            android:text="Total: $0.00" android:textStyle="bold" android:textSize="16sp" android:textColor="@color/green_dark"/>
+        <EditText android:id="@+id/et_amount_paid" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Amount Paid ($)" android:inputType="numberDecimal"/>
+        <TextView android:id="@+id/tv_balance" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Balance: $0.00" android:textStyle="bold" android:textColor="#C62828"/>
 
-        <TextView android:text="PAYMENT" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
-
-        <TextView android:text="Amount Paid ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
-        <EditText android:id="@+id/et_amount_paid" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
-                <TextView android:text="Sale Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_sale_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-            </LinearLayout>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:text="Delivery Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                <EditText android:id="@+id/et_delivery_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_sale_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Sale Date (yyyy-MM-dd)"/>
+        <EditText android:id="@+id/et_delivery_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Expected Delivery Date (yyyy-MM-dd)"/>
         <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
     </LinearLayout>
 </ScrollView>
