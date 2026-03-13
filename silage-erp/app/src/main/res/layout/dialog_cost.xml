@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+        <TextView android:text="Category" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+        <Spinner android:id="@+id/sp_category" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView android:text="Description *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_description" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Maize seeds 50kg bags"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Quantity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <EditText android:id="@+id/et_quantity" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <Spinner android:id="@+id/sp_unit" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView android:text="Unit Cost ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_unit_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+        <TextView android:id="@+id/tv_calculated_amount" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Amount: $0.00" android:textSize="15sp" android:textStyle="bold" android:textColor="#1B5E20"
+            android:background="#E8F5E9" android:padding="8dp" android:layout_marginTop="4dp"/>
+        <TextView android:text="Season" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_season" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 2024/25"/>
+        <TextView android:text="Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="yyyy-MM-dd"/>
+        <TextView android:text="Supplier / Vendor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_supplier" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Supplier name"/>
+        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes" android:inputType="textMultiLine" android:minLines="2"/>
+    </LinearLayout>
+</ScrollView>

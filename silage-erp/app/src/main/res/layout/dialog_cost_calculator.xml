@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+
+        <TextView android:text="FIELD / CROP DETAILS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Hectares" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_hectares" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Expected Yield (tons)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_expected_yield" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView android:text="Expected Selling Price ($/ton)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_expected_price" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+
+        <TextView android:text="INPUT COSTS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Seeds ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_seed_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Fertilizer ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_fert_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Labour ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <EditText android:id="@+id/et_labour_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Machinery ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <EditText android:id="@+id/et_machinery_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Wrap / Packaging ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <EditText android:id="@+id/et_wrap_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Fuel ($)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                <EditText android:id="@+id/et_fuel_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView android:text="TRANSPORT CALCULATOR" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                <TextView android:text="Distance (km)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_distance_km" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0" android:inputType="numberDecimal"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:text="Rate ($/km)" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+                <EditText android:id="@+id/et_transport_rate_per_km" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="0.00" android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView android:text="Or enter fixed transport cost:" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#757575" android:layout_marginTop="4dp"/>
+        <EditText android:id="@+id/et_transport_cost" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Fixed transport cost ($) if not using rate/km" android:inputType="numberDecimal"/>
+
+        <TextView android:text="RESULTS" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:textColor="#1B5E20" android:layout_marginTop="12dp"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#BDBDBD" android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/tv_calc_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textSize="13sp"
+            android:background="#E8F5E9"
+            android:padding="12dp"
+            android:text="Fill in values above to see cost analysis"/>
+    </LinearLayout>
+</ScrollView>

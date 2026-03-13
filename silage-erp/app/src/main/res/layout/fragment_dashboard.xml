@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Business Overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:paddingBottom="8dp"/>
+
+        <!-- Low stock alert -->
+        <TextView
+            android:id="@+id/tv_low_stock_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"/>
+
+        <!-- Row 1: Farmers + Lands -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <include layout="@layout/card_stat" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/card1"/>
+            <include layout="@layout/card_stat" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/card2"/>
+        </LinearLayout>
+
+        <!-- Stat cards using individual TextViews in a grid -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:padding="12dp">
+
+                <TextView android:text="Farmers:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_farmer_count" android:text="0" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Fields / Blocks:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_land_count" android:text="0" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Total Area:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_total_hectares" android:text="0 ha" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Total Yield:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_total_yield" android:text="0 tons" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Total Bales:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_total_bales" android:text="0" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Revenue:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_total_revenue" android:text="$0.00" android:textColor="@color/green" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Outstanding:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_outstanding" android:text="$0.00" android:textColor="@color/red" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Total Costs:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_total_cost" android:text="$0.00" android:textColor="@color/orange" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Active Cattle:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_cattle_count" android:text="0" android:textColor="@color/blue" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Fattening:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_fattening_count" android:text="0" android:textColor="@color/blue" android:textStyle="bold" android:padding="4dp"/>
+
+                <TextView android:text="Inventory Value:" android:textStyle="bold" android:padding="4dp"/>
+                <TextView android:id="@+id/tv_inventory_value" android:text="$0.00" android:textColor="@color/primary" android:textStyle="bold" android:padding="4dp"/>
+            </GridLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

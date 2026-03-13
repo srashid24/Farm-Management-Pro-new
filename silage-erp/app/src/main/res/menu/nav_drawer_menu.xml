@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_dashboard" android:title="Dashboard" android:icon="@android:drawable/ic_menu_compass"/>
+
+        <item android:title="PRODUCTION">
+            <menu>
+                <item android:id="@+id/nav_farmers" android:title="Farmers"/>
+                <item android:id="@+id/nav_lands" android:title="Lands &amp; Fields"/>
+                <item android:id="@+id/nav_harvest" android:title="Harvest &amp; Yield"/>
+                <item android:id="@+id/nav_packaging" android:title="Packaging"/>
+            </menu>
+        </item>
+
+        <item android:title="STOCK &amp; TRADE">
+            <menu>
+                <item android:id="@+id/nav_inventory" android:title="Inventory"/>
+                <item android:id="@+id/nav_buyers" android:title="Buyers"/>
+                <item android:id="@+id/nav_sellers" android:title="Suppliers"/>
+                <item android:id="@+id/nav_sales" android:title="Sales &amp; Delivery"/>
+            </menu>
+        </item>
+
+        <item android:title="FINANCE">
+            <menu>
+                <item android:id="@+id/nav_costing" android:title="Costing &amp; Expenses"/>
+            </menu>
+        </item>
+
+        <item android:title="LIVESTOCK">
+            <menu>
+                <item android:id="@+id/nav_cattle" android:title="Cattle"/>
+                <item android:id="@+id/nav_fattening" android:title="Fattening Program"/>
+            </menu>
+        </item>
+
+        <item android:title="ANALYTICS">
+            <menu>
+                <item android:id="@+id/nav_reports" android:title="Reports &amp; History"/>
+            </menu>
+        </item>
+    </group>
+</menu>

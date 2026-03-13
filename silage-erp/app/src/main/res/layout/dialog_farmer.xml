@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+        <TextView android:text="Full Name *" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+        <EditText android:id="@+id/et_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. John Dube" android:inputType="textPersonName"/>
+        <TextView android:text="Phone Number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_phone" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="+27 12 345 6789" android:inputType="phone"/>
+        <TextView android:text="Address" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_address" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Physical address" android:inputType="textMultiLine" android:minLines="2"/>
+        <TextView android:text="National ID / Passport" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_national_id" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ID number"/>
+        <TextView android:text="Email" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_email" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="email@example.com" android:inputType="textEmailAddress"/>
+        <TextView android:text="Notes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold" android:layout_marginTop="8dp"/>
+        <EditText android:id="@+id/et_notes" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Any additional notes" android:inputType="textMultiLine" android:minLines="2"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Silage Pro ERP</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Silage Pro ERP</string>
+    <string name="nav_header_subtitle">Offline Farm Management</string>
+</resources>
