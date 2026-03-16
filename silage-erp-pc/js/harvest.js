@@ -21,12 +21,13 @@ const Harvest = {
         <td>${UI.n(h.moisturePercent,1)}%</td>
         <td>${h.quality ? UI.badge(h.quality, h.quality==='Excellent'||h.quality==='Good'?'green':'orange') : ''}</td>
         <td>${h.storageLocation||''}</td>
+        <td>${(h.loadingCost||h.unloadingCost) ? UI.money((h.loadingCost||0)+(h.unloadingCost||0)) : '—'}</td>
         ${h.imagePath ? `<td><img src="${h.imagePath}" class="photo-thumb"></td>` : '<td>—</td>'}
         <td class="actions">
           <button class="btn btn-sm btn-outline" onclick="Harvest.edit(${h.id})">Edit</button>
           <button class="btn btn-sm btn-danger" onclick="Harvest.del(${h.id})">Delete</button>
         </td>
-      </tr>`).join('') : `<tr><td colspan="11">${UI.empty()}</td></tr>`;
+      </tr>`).join('') : `<tr><td colspan="12">${UI.empty()}</td></tr>`;
 
     UI.render(`
       <div class="kpi-grid">
@@ -40,7 +41,7 @@ const Harvest = {
       <div class="card">
         <div class="table-wrap">
           <table id="tbl">
-            <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Type</th><th>Yield</th><th>Bales</th><th>Moisture</th><th>Quality</th><th>Storage</th><th>Photo</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Type</th><th>Yield</th><th>Bales</th><th>Moisture</th><th>Quality</th><th>Storage</th><th>Handling</th><th>Photo</th><th>Actions</th></tr></thead>
             <tbody>${tableRows}</tbody>
           </table>
         </div>
@@ -72,6 +73,11 @@ const Harvest = {
         <div class="form-group"><label>Storage Location</label><input id="storageLocation" value="${h.storageLocation||''}"></div>
       </div>
       <div class="form-group"><label>Total Input Cost ($)</label><input id="inputCostTotal" type="number" step="0.01" value="${h.inputCostTotal||''}"></div>
+      <div class="form-section">🏗️ Loading / Unloading</div>
+      <div class="form-row">
+        <div class="form-group"><label>Loading Cost ($)</label><input id="loadingCost" type="number" step="0.01" placeholder="0.00" value="${h.loadingCost||''}"></div>
+        <div class="form-group"><label>Unloading Cost ($)</label><input id="unloadingCost" type="number" step="0.01" placeholder="0.00" value="${h.unloadingCost||''}"></div>
+      </div>
       <div class="form-group"><label>Notes / Sample Quality Description</label><textarea id="notes">${h.notes||''}</textarea></div>
       ${UI.photoField('photo', h.imagePath)}`;
   },
@@ -89,6 +95,7 @@ const Harvest = {
         quality: UI.val(body,'quality'), silagType: UI.val(body,'silagType'),
         storageLocation: UI.val(body,'storageLocation'),
         inputCostTotal: UI.num(body,'inputCostTotal'),
+        loadingCost: UI.num(body,'loadingCost'), unloadingCost: UI.num(body,'unloadingCost'),
         notes: UI.val(body,'notes'), imagePath: photo || h?.imagePath || null,
       });
       this.render();
@@ -109,6 +116,7 @@ const Harvest = {
         quality: UI.val(body,'quality'), silagType: UI.val(body,'silagType'),
         storageLocation: UI.val(body,'storageLocation'),
         inputCostTotal: UI.num(body,'inputCostTotal'),
+        loadingCost: UI.num(body,'loadingCost'), unloadingCost: UI.num(body,'unloadingCost'),
         notes: UI.val(body,'notes'), imagePath: photo || h.imagePath,
       });
       this.render();

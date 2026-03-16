@@ -1,5 +1,5 @@
 const Costing = {
-  CATEGORIES: ['Seeds','Fertilizer','Labour','Machinery','Fuel','Wrap','Transport','Land Rent','Chemicals','Other'],
+  CATEGORIES: ['Seeds','Fertilizer','Labour','Machinery','Fuel','Wrap','Transport','Loading','Unloading','Land Rent','Chemicals','Other'],
   UNITS: ['Kg','Bags','Tons','Liters','Hours','Days','Rolls','Pieces','Ha','Other'],
   async render() {
     UI.title('Costing & Expenses');

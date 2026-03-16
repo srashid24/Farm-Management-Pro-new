@@ -13,8 +13,10 @@ const Reports = {
     const totalBales   = harvests.reduce((s,r)=>s+(r.baleCount||0),0);
     const totalHa      = lands.reduce((s,r)=>s+(r.sizeHectares||0),0);
     const totalAc      = lands.reduce((s,r)=>s+(r.sizeAcres||0),0);
-    const totalRevenue = sales.reduce((s,r)=>s+(r.totalAmount||0),0);
-    const totalTransport = sales.reduce((s,r)=>s+(r.transportCost||0),0);
+    const totalRevenue    = sales.reduce((s,r)=>s+(r.totalAmount||0),0);
+    const totalTransport  = sales.reduce((s,r)=>s+(r.transportCost||0),0);
+    const totalLoading    = sales.reduce((s,r)=>s+(r.loadingCost||0),0);
+    const totalUnloading  = sales.reduce((s,r)=>s+(r.unloadingCost||0),0);
     const totalOutstanding = sales.reduce((s,r)=>s+(r.balance||0),0);
     const totalCosts   = costs.reduce((s,r)=>s+(r.amount||0),0);
     const netProfit    = totalRevenue - totalCosts;
@@ -57,6 +59,8 @@ const Reports = {
           <div class="report-row total"><span class="label">Net Profit</span><span class="value ${netProfit>=0?'text-green':'text-red'}">${UI.money(netProfit)}</span></div>
           <div class="report-row warning"><span class="label">Outstanding (owed)</span><span class="value">${UI.money(totalOutstanding)}</span></div>
           <div class="report-row"><span class="label">Transport Costs</span><span class="value">${UI.money(totalTransport)}</span></div>
+          ${totalLoading > 0 ? `<div class="report-row"><span class="label">Loading Costs</span><span class="value">${UI.money(totalLoading)}</span></div>` : ''}
+          ${totalUnloading > 0 ? `<div class="report-row"><span class="label">Unloading Costs</span><span class="value">${UI.money(totalUnloading)}</span></div>` : ''}
           <div class="report-row"><span class="label">Inventory Value</span><span class="value">${UI.money(totalInvValue)}</span></div>
         </div>
         <div class="card">
