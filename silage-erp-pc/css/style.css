@@ -56,6 +56,7 @@ body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--
 .kpi.blue   { background: var(--blue); }       .kpi.blue .kpi-label,  .kpi.blue .kpi-value  { color: #fff; }
 .kpi.brown  { background: #5D4037; }           .kpi.brown .kpi-label, .kpi.brown .kpi-value { color: #fff; }
 .kpi.red    { background: var(--red); }         .kpi.red .kpi-label,   .kpi.red .kpi-value   { color: #fff; }
+.kpi.orange { background: var(--orange); }      .kpi.orange .kpi-label,.kpi.orange .kpi-value { color: #fff; }
 
 /* ── Toolbar ── */
 .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
