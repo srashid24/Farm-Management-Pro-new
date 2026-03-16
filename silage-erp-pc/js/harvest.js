@@ -7,10 +7,13 @@ const Harvest = {
     UI.title('Harvest & Yield');
     const [rows, lands] = await Promise.all([db.getAll('harvests'), db.getAll('lands')]);
     const lMap = Object.fromEntries(lands.map(l => [l.id, l.fieldName]));
-    const totalTons = rows.reduce((s,r) => s+(r.yieldTons||0), 0);
+    const totalTons  = rows.reduce((s,r) => s+(r.yieldTons||0), 0);
     const totalBales = rows.reduce((s,r) => s+(r.baleCount||0), 0);
+    const totalExtras = rows.reduce((s,r)=>s+(r.additionalExpensesTotal||0),0);
 
-    const tableRows = rows.length ? rows.map(h => `
+    const tableRows = rows.length ? rows.map(h => {
+      const extras = h.additionalExpenses?.length || 0;
+      return `
       <tr>
         <td>${h.harvestDate||''}</td>
         <td>${h.season||''}</td>
@@ -22,18 +25,21 @@ const Harvest = {
         <td>${h.quality ? UI.badge(h.quality, h.quality==='Excellent'||h.quality==='Good'?'green':'orange') : ''}</td>
         <td>${h.storageLocation||''}</td>
         <td>${(h.loadingCost||h.unloadingCost) ? UI.money((h.loadingCost||0)+(h.unloadingCost||0)) : '—'}</td>
+        <td>${extras > 0 ? `<span title="${(h.additionalExpenses||[]).map(e=>e.type+': '+UI.money(e.amount)).join(', ')}">${UI.money(h.additionalExpensesTotal)}</span>` : '—'}</td>
         ${h.imagePath ? `<td><img src="${h.imagePath}" class="photo-thumb"></td>` : '<td>—</td>'}
         <td class="actions">
           <button class="btn btn-sm btn-outline" onclick="Harvest.edit(${h.id})">Edit</button>
           <button class="btn btn-sm btn-danger" onclick="Harvest.del(${h.id})">Delete</button>
         </td>
-      </tr>`).join('') : `<tr><td colspan="12">${UI.empty()}</td></tr>`;
+      </tr>`;
+    }).join('') : `<tr><td colspan="13">${UI.empty()}</td></tr>`;
 
     UI.render(`
       <div class="kpi-grid">
         <div class="kpi brown"><div class="kpi-label">Total Yield</div><div class="kpi-value">${UI.n(totalTons,1)} t</div></div>
         <div class="kpi brown"><div class="kpi-label">Total Bales</div><div class="kpi-value">${totalBales}</div></div>
         <div class="kpi brown"><div class="kpi-label">Harvests</div><div class="kpi-value">${rows.length}</div></div>
+        ${totalExtras > 0 ? `<div class="kpi"><div class="kpi-label">Extra Expenses</div><div class="kpi-value">${UI.money(totalExtras)}</div></div>` : ''}
       </div>
       <div class="toolbar">
         <button class="btn btn-primary" onclick="Harvest.add()">+ Add Harvest Record</button>
@@ -41,7 +47,7 @@ const Harvest = {
       <div class="card">
         <div class="table-wrap">
           <table id="tbl">
-            <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Type</th><th>Yield</th><th>Bales</th><th>Moisture</th><th>Quality</th><th>Storage</th><th>Handling</th><th>Photo</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Type</th><th>Yield</th><th>Bales</th><th>Moisture</th><th>Quality</th><th>Storage</th><th>Handling</th><th>Extras</th><th>Photo</th><th>Actions</th></tr></thead>
             <tbody>${tableRows}</tbody>
           </table>
         </div>
@@ -78,6 +84,8 @@ const Harvest = {
         <div class="form-group"><label>Loading Cost ($)</label><input id="loadingCost" type="number" step="0.01" placeholder="0.00" value="${h.loadingCost||''}"></div>
         <div class="form-group"><label>Unloading Cost ($)</label><input id="unloadingCost" type="number" step="0.01" placeholder="0.00" value="${h.unloadingCost||''}"></div>
       </div>
+      ${UI.batchShiftField(h.batchShifts||[])}
+      ${UI.additionalExpensesField(h.additionalExpenses||[])}
       <div class="form-group"><label>Notes / Sample Quality Description</label><textarea id="notes">${h.notes||''}</textarea></div>
       ${UI.photoField('photo', h.imagePath)}`;
   },
@@ -88,6 +96,8 @@ const Harvest = {
       const landId = parseInt(UI.val(body,'landId'));
       if (!landId) { alert('Select a field'); return false; }
       const photo = await UI.readPhoto(body.querySelector('#photo'));
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
+      const { list: batchShifts, totalBags: batchTotalBags } = UI.readBatchShifts(body);
       await db.add('harvests', {
         landId, season: UI.val(body,'season'), harvestDate: UI.val(body,'harvestDate'),
         yieldTons: UI.num(body,'yieldTons'), moisturePercent: UI.num(body,'moisturePercent'),
@@ -96,7 +106,9 @@ const Harvest = {
         storageLocation: UI.val(body,'storageLocation'),
         inputCostTotal: UI.num(body,'inputCostTotal'),
         loadingCost: UI.num(body,'loadingCost'), unloadingCost: UI.num(body,'unloadingCost'),
-        notes: UI.val(body,'notes'), imagePath: photo || h?.imagePath || null,
+        batchShifts, batchTotalBags,
+        additionalExpenses, additionalExpensesTotal,
+        notes: UI.val(body,'notes'), imagePath: photo || null,
       });
       this.render();
     });
@@ -109,6 +121,8 @@ const Harvest = {
       const landId = parseInt(UI.val(body,'landId'));
       if (!landId) { alert('Select a field'); return false; }
       const photo = await UI.readPhoto(body.querySelector('#photo'));
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
+      const { list: batchShifts, totalBags: batchTotalBags } = UI.readBatchShifts(body);
       await db.put('harvests', { ...h,
         landId, season: UI.val(body,'season'), harvestDate: UI.val(body,'harvestDate'),
         yieldTons: UI.num(body,'yieldTons'), moisturePercent: UI.num(body,'moisturePercent'),
@@ -117,6 +131,8 @@ const Harvest = {
         storageLocation: UI.val(body,'storageLocation'),
         inputCostTotal: UI.num(body,'inputCostTotal'),
         loadingCost: UI.num(body,'loadingCost'), unloadingCost: UI.num(body,'unloadingCost'),
+        batchShifts, batchTotalBags,
+        additionalExpenses, additionalExpensesTotal,
         notes: UI.val(body,'notes'), imagePath: photo || h.imagePath,
       });
       this.render();

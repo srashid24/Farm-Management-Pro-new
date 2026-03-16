@@ -13,12 +13,13 @@ const Sales = {
     const loading   = parseFloat(body.querySelector('#loadingCost').value)||0;
     const unloading = parseFloat(body.querySelector('#unloadingCost').value)||0;
     const paid      = parseFloat(body.querySelector('#amountPaid').value)||0;
+    const { total: addExtra } = UI.readAdditionalExpenses(body);
     const silageCost = (tons * pTon) + (bales * pBale);
-    const total      = silageCost + transport + loading + unloading;
+    const total      = silageCost + transport + loading + unloading + addExtra;
     const bal        = total - paid;
     const el = body.querySelector('#calc-display');
     if (el) el.innerHTML =
-      `Silage: ${UI.money(silageCost)} + Transport: ${UI.money(transport)} + Loading: ${UI.money(loading)} + Unloading: ${UI.money(unloading)} = <strong>Total: ${UI.money(total)}</strong> | Balance: <strong style="color:${bal>0?'#C62828':'#2E7D32'}">${UI.money(bal)}</strong>`;
+      `Silage: ${UI.money(silageCost)} + Transport: ${UI.money(transport)} + Loading: ${UI.money(loading)} + Unloading: ${UI.money(unloading)}${addExtra > 0 ? ` + Extra: ${UI.money(addExtra)}` : ''} = <strong>Total: ${UI.money(total)}</strong> | Balance: <strong style="color:${bal>0?'#C62828':'#2E7D32'}">${UI.money(bal)}</strong>`;
     return { silageCost, total, bal };
   },
 
@@ -29,10 +30,12 @@ const Sales = {
     const totalOut      = rows.reduce((s,r)=>s+(r.balance||0),0);
     const totalTrans    = rows.reduce((s,r)=>s+(r.transportCost||0),0);
     const totalHandling = rows.reduce((s,r)=>s+(r.loadingCost||0)+(r.unloadingCost||0),0);
+    const totalExtras   = rows.reduce((s,r)=>s+(r.additionalExpensesTotal||0),0);
     const pending       = rows.filter(r=>r.deliveryStatus==='Pending').length;
 
     const tableRows = rows.length ? rows.map(s => {
       const handling = (s.loadingCost||0) + (s.unloadingCost||0);
+      const extras   = s.additionalExpenses?.length || 0;
       return `
       <tr>
         <td><strong>${s.invoiceNumber||''}</strong></td>
@@ -43,6 +46,7 @@ const Sales = {
         <td class="fw-bold">${UI.money(s.totalAmount)}</td>
         <td>${UI.money(s.transportCost)}</td>
         <td>${handling > 0 ? `<span title="Loading: ${UI.money(s.loadingCost||0)} / Unloading: ${UI.money(s.unloadingCost||0)}">${UI.money(handling)}</span>` : '—'}</td>
+        <td>${extras > 0 ? `<span title="${(s.additionalExpenses||[]).map(e=>e.type+': '+UI.money(e.amount)).join(', ')}">${UI.money(s.additionalExpensesTotal)} <small>(${extras})</small></span>` : '—'}</td>
         <td>${UI.money(s.amountPaid)}</td>
         <td class="${s.balance>0?'text-red':'text-green'} fw-bold">${UI.money(s.balance)}</td>
         <td>${UI.deliveryBadge(s.deliveryStatus)}</td>
@@ -55,7 +59,7 @@ const Sales = {
           <button class="btn btn-sm btn-danger" onclick="Sales.del(${s.id})">Delete</button>
         </td>
       </tr>`;
-    }).join('') : `<tr><td colspan="14">${UI.empty()}</td></tr>`;
+    }).join('') : `<tr><td colspan="15">${UI.empty()}</td></tr>`;
 
     UI.render(`
       <div class="kpi-grid">
@@ -63,6 +67,7 @@ const Sales = {
         <div class="kpi red"><div class="kpi-label">Outstanding</div><div class="kpi-value">${UI.money(totalOut)}</div></div>
         <div class="kpi blue"><div class="kpi-label">Transport Costs</div><div class="kpi-value">${UI.money(totalTrans)}</div></div>
         ${totalHandling > 0 ? `<div class="kpi orange"><div class="kpi-label">Loading / Unloading</div><div class="kpi-value">${UI.money(totalHandling)}</div></div>` : ''}
+        ${totalExtras > 0 ? `<div class="kpi"><div class="kpi-label">Extra Expenses</div><div class="kpi-value">${UI.money(totalExtras)}</div></div>` : ''}
         <div class="kpi"><div class="kpi-label">Pending Deliveries</div><div class="kpi-value">${pending}</div></div>
       </div>
       <div class="toolbar">
@@ -72,7 +77,7 @@ const Sales = {
       <div class="card">
         <div class="table-wrap">
           <table id="tbl">
-            <thead><tr><th>Invoice</th><th>Buyer</th><th>Type</th><th>Qty</th><th>Route</th><th>Total</th><th>Transport</th><th>Handling</th><th>Paid</th><th>Balance</th><th>Delivery</th><th>Payment</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Invoice</th><th>Buyer</th><th>Type</th><th>Qty</th><th>Route</th><th>Total</th><th>Transport</th><th>Handling</th><th>Extras</th><th>Paid</th><th>Balance</th><th>Delivery</th><th>Payment</th><th>Date</th><th>Actions</th></tr></thead>
             <tbody>${tableRows}</tbody>
           </table>
         </div>
@@ -84,8 +89,8 @@ const Sales = {
     const filtered = q ? rows.filter(s => (s.buyerName+s.invoiceNumber+s.deliveryLocation).toLowerCase().includes(q.toLowerCase())) : rows;
     document.querySelector('#tbl tbody').innerHTML = filtered.map(s => {
       const handling = (s.loadingCost||0)+(s.unloadingCost||0);
-      return `<tr><td>${s.invoiceNumber}</td><td>${s.buyerName}</td><td>${s.silagType}</td><td>${UI.n(s.quantityTons,1)}t/${s.balesCount} bales</td><td>${s.departureLocation}→${s.deliveryLocation}</td><td>${UI.money(s.totalAmount)}</td><td>${UI.money(s.transportCost)}</td><td>${handling>0?UI.money(handling):'—'}</td><td>${UI.money(s.amountPaid)}</td><td>${UI.money(s.balance)}</td><td>${UI.deliveryBadge(s.deliveryStatus)}</td><td>${UI.payBadge(s.paymentStatus)}</td><td>${s.saleDate}</td><td class="actions">${s.deliveryStatus!=='Delivered'?`<button class="btn btn-sm btn-blue" onclick="Sales.markDelivered(${s.id})">✓ Delivered</button>`:''} ${s.paymentStatus!=='Paid'?`<button class="btn btn-sm btn-primary" onclick="Sales.markPaid(${s.id})">✓ Paid</button>`:''}<button class="btn btn-sm btn-outline" onclick="Sales.edit(${s.id})">Edit</button><button class="btn btn-sm btn-danger" onclick="Sales.del(${s.id})">Del</button></td></tr>`;
-    }).join('')||`<tr><td colspan="14" style="text-align:center;color:#999">No results</td></tr>`;
+      return `<tr><td>${s.invoiceNumber}</td><td>${s.buyerName}</td><td>${s.silagType}</td><td>${UI.n(s.quantityTons,1)}t/${s.balesCount} bales</td><td>${s.departureLocation}→${s.deliveryLocation}</td><td>${UI.money(s.totalAmount)}</td><td>${UI.money(s.transportCost)}</td><td>${handling>0?UI.money(handling):'—'}</td><td>${s.additionalExpensesTotal>0?UI.money(s.additionalExpensesTotal):'—'}</td><td>${UI.money(s.amountPaid)}</td><td>${UI.money(s.balance)}</td><td>${UI.deliveryBadge(s.deliveryStatus)}</td><td>${UI.payBadge(s.paymentStatus)}</td><td>${s.saleDate}</td><td class="actions">${s.deliveryStatus!=='Delivered'?`<button class="btn btn-sm btn-blue" onclick="Sales.markDelivered(${s.id})">✓ Delivered</button>`:''} ${s.paymentStatus!=='Paid'?`<button class="btn btn-sm btn-primary" onclick="Sales.markPaid(${s.id})">✓ Paid</button>`:''}<button class="btn btn-sm btn-outline" onclick="Sales.edit(${s.id})">Edit</button><button class="btn btn-sm btn-danger" onclick="Sales.del(${s.id})">Del</button></td></tr>`;
+    }).join('')||`<tr><td colspan="15" style="text-align:center;color:#999">No results</td></tr>`;
   },
 
   async form(s = {}) {
@@ -118,6 +123,7 @@ const Sales = {
         <div class="form-group"><label>Loading Cost ($)</label><input id="loadingCost" type="number" step="0.01" placeholder="0.00" value="${s.loadingCost||''}" oninput="Sales.calcTotal(document.querySelector('.modal-body'))"></div>
         <div class="form-group"><label>Unloading Cost ($)</label><input id="unloadingCost" type="number" step="0.01" placeholder="0.00" value="${s.unloadingCost||''}" oninput="Sales.calcTotal(document.querySelector('.modal-body'))"></div>
       </div>
+      ${UI.additionalExpensesField(s.additionalExpenses||[])}
       <div class="form-section">Payment</div>
       <div class="calc-display" id="calc-display">Enter quantities and prices above to calculate total</div>
       <div class="form-row mt-8">
@@ -138,7 +144,7 @@ const Sales = {
       const buyerId = parseInt(UI.val(body,'buyerId'));
       if (!buyerId) { alert('Select a buyer'); return false; }
       const buyers = await db.getAll('buyers');
-      const buyer = buyers.find(b => b.id === buyerId);
+      const buyer  = buyers.find(b => b.id === buyerId);
       const tons      = UI.num(body,'qtyTons');
       const bales     = parseInt(UI.val(body,'balesCount'))||0;
       const pTon      = UI.num(body,'pricePerTon');
@@ -147,8 +153,9 @@ const Sales = {
       const loading   = UI.num(body,'loadingCost');
       const unloading = UI.num(body,'unloadingCost');
       const paid      = UI.num(body,'amountPaid');
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
       const silageCost = (tons * pTon) + (bales * pBale);
-      const total      = silageCost + transport + loading + unloading;
+      const total      = silageCost + transport + loading + unloading + additionalExpensesTotal;
       const balance    = total - paid;
       await db.add('sales', {
         buyerId, buyerName: buyer?.name||'',
@@ -157,6 +164,7 @@ const Sales = {
         pricePerTon: pTon, pricePerBale: pBale,
         silageCost, transportCost: transport,
         loadingCost: loading, unloadingCost: unloading,
+        additionalExpenses, additionalExpensesTotal,
         transportDistanceKm: UI.num(body,'transportDistanceKm'),
         departureLocation: UI.val(body,'departureLocation'),
         deliveryLocation: UI.val(body,'deliveryLocation'),
@@ -187,14 +195,16 @@ const Sales = {
       const loading   = UI.num(body,'loadingCost');
       const unloading = UI.num(body,'unloadingCost');
       const paid      = UI.num(body,'amountPaid');
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
       const silageCost = (tons * pTon) + (bales * pBale);
-      const total      = silageCost + transport + loading + unloading;
+      const total      = silageCost + transport + loading + unloading + additionalExpensesTotal;
       const balance    = total - paid;
       await db.put('sales', { ...s, buyerId, buyerName: buyer?.name||s.buyerName,
         silagType: UI.val(body,'silagType'),
         quantityTons: tons, balesCount: bales, pricePerTon: pTon, pricePerBale: pBale,
         silageCost, transportCost: transport,
         loadingCost: loading, unloadingCost: unloading,
+        additionalExpenses, additionalExpensesTotal,
         transportDistanceKm: UI.num(body,'transportDistanceKm'),
         departureLocation: UI.val(body,'departureLocation'),
         deliveryLocation: UI.val(body,'deliveryLocation'),

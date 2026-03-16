@@ -9,9 +9,12 @@ const Packaging = {
     const totalTons     = rows.reduce((s,r)=>s+(r.totalWeightTons||0),0);
     const totalCost     = rows.reduce((s,r)=>s+(r.totalPackagingCost||0),0);
     const totalHandling = rows.reduce((s,r)=>s+(r.loadingCost||0)+(r.unloadingCost||0),0);
+    const totalExtras   = rows.reduce((s,r)=>s+(r.additionalExpensesTotal||0),0);
 
     const tableRows = rows.length ? rows.map(p => {
       const handlingCost = (p.loadingCost||0)+(p.unloadingCost||0);
+      const batchCount   = p.batchShifts?.length || 0;
+      const totalBatchBags = (p.batchShifts||[]).reduce((s,b)=>s+(b.bagsProduced||0),0);
       return `<tr>
         <td>${p.packagingDate||''}</td>
         <td>${p.harvestSeason||''}</td>
@@ -24,15 +27,17 @@ const Packaging = {
         <td>${p.wrapColour||''}</td>
         <td>${p.shiftsWorked||'—'}</td>
         <td>${p.bagsPerShift ? `${p.bagsPerShift}/shift` : '—'}</td>
+        <td>${batchCount > 0 ? `<span title="${(p.batchShifts||[]).map(b=>`Batch ${b.batchNumber} (${b.shift}): ${b.bagsProduced} bags`).join('\n')}">${batchCount} batches · ${totalBatchBags} bags</span>` : '—'}</td>
         <td class="text-red">${UI.money(p.totalPackagingCost||0)}</td>
-        ${handlingCost > 0 ? `<td class="text-red">${UI.money(handlingCost)}</td>` : '<td>—</td>'}
+        <td>${handlingCost > 0 ? UI.money(handlingCost) : '—'}</td>
+        <td>${p.additionalExpensesTotal > 0 ? `<span title="${(p.additionalExpenses||[]).map(e=>e.type+': '+UI.money(e.amount)).join(', ')}">${UI.money(p.additionalExpensesTotal)}</span>` : '—'}</td>
         <td>${p.storageLocation||''}</td>
         <td class="actions">
           <button class="btn btn-sm btn-outline" onclick="Packaging.edit(${p.id})">Edit</button>
           <button class="btn btn-sm btn-danger" onclick="Packaging.del(${p.id})">Delete</button>
         </td>
       </tr>`;
-    }).join('') : `<tr><td colspan="15">${UI.empty()}</td></tr>`;
+    }).join('') : `<tr><td colspan="17">${UI.empty()}</td></tr>`;
 
     UI.render(`
       <div class="kpi-grid">
@@ -40,10 +45,11 @@ const Packaging = {
         <div class="kpi brown"><div class="kpi-label">Total Weight</div><div class="kpi-value">${UI.n(totalTons,1)} t</div></div>
         <div class="kpi red"><div class="kpi-label">Packaging Cost</div><div class="kpi-value">${UI.money(totalCost)}</div></div>
         ${totalHandling > 0 ? `<div class="kpi orange"><div class="kpi-label">Loading / Unloading</div><div class="kpi-value">${UI.money(totalHandling)}</div></div>` : ''}
+        ${totalExtras > 0 ? `<div class="kpi"><div class="kpi-label">Extra Expenses</div><div class="kpi-value">${UI.money(totalExtras)}</div></div>` : ''}
       </div>
       <div class="toolbar"><button class="btn btn-primary" onclick="Packaging.add()">+ Add Packaging Record</button></div>
       <div class="card"><div class="table-wrap"><table>
-        <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Bales</th><th>Bale Wt</th><th>Total Wt</th><th>Type</th><th>Layers</th><th>Colour</th><th>Shifts</th><th>Bags/Shift</th><th>Pkg Cost</th><th>Handling</th><th>Storage</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Date</th><th>Season</th><th>Field</th><th>Bales</th><th>Bale Wt</th><th>Total Wt</th><th>Type</th><th>Layers</th><th>Colour</th><th>Shifts</th><th>Bags/Shift</th><th>Batch Detail</th><th>Pkg Cost</th><th>Handling</th><th>Extras</th><th>Storage</th><th>Actions</th></tr></thead>
         <tbody>${tableRows}</tbody>
       </table></div></div>`);
   },
@@ -69,23 +75,23 @@ const Packaging = {
         <div class="form-group"><label>Wrap Colour</label><input id="wrapColour" value="${p.wrapColour||''}"></div>
         <div class="form-group"><label>Wrap Cost per Bale ($)</label><input id="wrapCostPerBale" type="number" step="0.01" value="${p.wrapCostPerBale||''}"></div>
       </div>
-      <div class="form-section">👷 Labour / Shift Tracking</div>
+      <div class="form-section">👷 Labour / Shift Overview</div>
       <div class="form-row">
         <div class="form-group"><label>Number of Shifts Worked</label><input id="shiftsWorked" type="number" step="1" placeholder="e.g. 3" value="${p.shiftsWorked||''}"></div>
-        <div class="form-group"><label>Bags / Bales per Shift</label><input id="bagsPerShift" type="number" step="1" placeholder="e.g. 120" value="${p.bagsPerShift||''}"></div>
+        <div class="form-group"><label>Bags / Bales per Shift (avg)</label><input id="bagsPerShift" type="number" step="1" placeholder="e.g. 120" value="${p.bagsPerShift||''}"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>Contractor</label><input id="contractor" value="${p.contractor||''}"></div>
         <div class="form-group"><label>Contractor Cost ($)</label><input id="contractorCost" type="number" step="0.01" value="${p.contractorCost||''}"></div>
       </div>
+      ${UI.batchShiftField(p.batchShifts||[])}
       <div class="form-section">🏗️ Loading / Unloading</div>
       <div class="form-row">
         <div class="form-group"><label>Loading Cost ($)</label><input id="loadingCost" type="number" step="0.01" placeholder="0.00" value="${p.loadingCost||''}"></div>
         <div class="form-group"><label>Unloading Cost ($)</label><input id="unloadingCost" type="number" step="0.01" placeholder="0.00" value="${p.unloadingCost||''}"></div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>Storage Location</label><input id="storageLocation" value="${p.storageLocation||''}"></div>
-      </div>
+      ${UI.additionalExpensesField(p.additionalExpenses||[])}
+      <div class="form-group" style="margin-top:8px"><label>Storage Location</label><input id="storageLocation" value="${p.storageLocation||''}"></div>
       <div class="form-group"><label>Notes</label><textarea id="notes">${p.notes||''}</textarea></div>`;
   },
 
@@ -102,8 +108,10 @@ const Packaging = {
       const contractor = UI.num(body,'contractorCost');
       const loading    = UI.num(body,'loadingCost');
       const unloading  = UI.num(body,'unloadingCost');
-      const totalWrapCost = bales * wc;
-      const totalPackagingCost = totalWrapCost + contractor + loading + unloading;
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
+      const { list: batchShifts, totalBags: batchTotalBags } = UI.readBatchShifts(body);
+      const totalWrapCost      = bales * wc;
+      const totalPackagingCost = totalWrapCost + contractor + loading + unloading + additionalExpensesTotal;
       await db.add('packaging', {
         harvestId: hid, harvestSeason: h?.season||'', landName: h?.silagType||'',
         baleCount: bales, baleWeightKg: bwt, totalWeightTons: (bales*bwt)/1000,
@@ -111,10 +119,12 @@ const Packaging = {
         wrapColour: UI.val(body,'wrapColour'), wrapCostPerBale: wc, totalWrapCost,
         shiftsWorked: parseInt(UI.val(body,'shiftsWorked'))||0,
         bagsPerShift: parseInt(UI.val(body,'bagsPerShift'))||0,
+        batchShifts, batchTotalBags,
         packagingDate: UI.val(body,'packagingDate'),
         storageLocation: UI.val(body,'storageLocation'),
         contractor: UI.val(body,'contractor'), contractorCost: contractor,
         loadingCost: loading, unloadingCost: unloading,
+        additionalExpenses, additionalExpensesTotal,
         totalPackagingCost,
         notes: UI.val(body,'notes'),
       });
@@ -132,8 +142,10 @@ const Packaging = {
       const contractor = UI.num(body,'contractorCost');
       const loading    = UI.num(body,'loadingCost');
       const unloading  = UI.num(body,'unloadingCost');
-      const totalWrapCost = bales * wc;
-      const totalPackagingCost = totalWrapCost + contractor + loading + unloading;
+      const { list: additionalExpenses, total: additionalExpensesTotal } = UI.readAdditionalExpenses(body);
+      const { list: batchShifts, totalBags: batchTotalBags } = UI.readBatchShifts(body);
+      const totalWrapCost      = bales * wc;
+      const totalPackagingCost = totalWrapCost + contractor + loading + unloading + additionalExpensesTotal;
       await db.put('packaging', {
         ...p,
         baleCount: bales, baleWeightKg: bwt, totalWeightTons: (bales*bwt)/1000,
@@ -141,10 +153,12 @@ const Packaging = {
         wrapColour: UI.val(body,'wrapColour'), wrapCostPerBale: wc, totalWrapCost,
         shiftsWorked: parseInt(UI.val(body,'shiftsWorked'))||0,
         bagsPerShift: parseInt(UI.val(body,'bagsPerShift'))||0,
+        batchShifts, batchTotalBags,
         packagingDate: UI.val(body,'packagingDate'),
         storageLocation: UI.val(body,'storageLocation'),
         contractor: UI.val(body,'contractor'), contractorCost: contractor,
         loadingCost: loading, unloadingCost: unloading,
+        additionalExpenses, additionalExpensesTotal,
         totalPackagingCost,
         notes: UI.val(body,'notes'),
       });
